@@ -5,7 +5,6 @@ import Feature from './feature';
 import { Mic, Activity, Search, FolderOpen, Clock } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 
 export default function Home() {
   return (
