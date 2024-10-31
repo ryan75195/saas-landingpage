@@ -1,138 +1,96 @@
-'use client'
-import { cn } from '@/lib/utils'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { usePathname } from 'next/navigation'
-import Typography from '@/components/ui/typography'
+// components/common/header.tsx
+'use client';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { usePathname } from 'next/navigation';
+import Typography from '@/components/ui/typography';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
   DrawerHeader,
-  DrawerTrigger
-} from '@/components/ui/drawer'
-import { MenuIcon, X } from 'lucide-react'
+  DrawerTrigger,
+} from '@/components/ui/drawer';
+import { Menu as MenuIcon, X } from 'lucide-react';
+import Image from 'next/image';
 
-interface SidebarProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
-
-export function Header({ className }: SidebarProps) {
-  const pathname = usePathname()
+export function Header({ className }: React.HTMLAttributes<HTMLDivElement>) {
+  const pathname = usePathname();
   const items = [
-    {
-      href: 'https://map.sistilli.dev/public/coding/SaaS+Boilerplate',
-      title: 'Book a demo',
-      openInNewTab: true
-    }
-    // { href: '#pricing', title: 'Features' },
-    // {
-    //   href: 'mailto:myemail@.com',
-    //   title: 'Contact Us'
-    // }
-  ]
+    { href: '/features', title: 'Features' },
+    { href: '/pricing', title: 'Pricing' },
+    { href: '/contact', title: 'Contact Us' },
+  ];
 
   const getLogo = () => (
-    <Link href="/" className="pointer flex items-center">
-      <img src="/logo.svg" className="mr-3" />
-      <Typography className="!text-white !text-base font-medium ">
-        Pandem
-      </Typography>
+    <Link href="/" className="flex items-center">
+      <Image src="/logo.svg" alt="Legacy AI Logo" width={40} height={40} />
+      <Typography className="ml-2 text-xl font-bold text-indigo-600">Legacy AI</Typography>
     </Link>
-  )
+  );
 
   const getAuthButtons = () => (
-    <div className="flex gap-3 items-center">
-      <Link
-        href="https://map.sistilli.dev/public/coding/SaaS+Boilerplate"
-        target="_blank"
-      >
-        <Typography variant="p">Login</Typography>
+    <div className="flex gap-4 items-center">
+      <Link href="/login">
+        <Typography variant="p" className="text-gray-700 hover:text-indigo-600">
+          Login
+        </Typography>
       </Link>
-      <Link
-        href="https://map.sistilli.dev/public/coding/SaaS+Boilerplate"
-        target="_blank"
-      >
-        <Button size="tiny" color="ghost">
-          <Typography variant="p" className="text-black">
-            Sign Up
-          </Typography>
+      <Link href="/signup">
+        <Button size="tiny" color="primary">
+          Sign Up
         </Button>
       </Link>
     </div>
-  )
+  );
 
-  const getHeaderItems = () => {
-    return (
-      <>
-        {items.map((item) => {
-          const selected =
-            pathname === item.href ||
-            pathname.includes(item.href)
-          return (
-            <Link
-              href={item.href}
-              className="pointer block w-fit"
-              target={item.openInNewTab ? '_blank' : ''}
-              key={item.title}
-            >
-              <Typography
-                variant="p"
-                className={cn(selected && 'text-primary')}
-              >
-                {item.title}
-              </Typography>
-            </Link>
-          )
-        })}
-      </>
-    )
-  }
+  const getHeaderItems = () => (
+    <>
+      {items.map((item) => {
+        const selected = pathname === item.href;
+        return (
+          <Link href={item.href} className="block" key={item.title}>
+            <Typography variant="p" className={cn(selected ? 'text-indigo-600' : 'text-gray-700', 'hover:text-indigo-600')}>
+              {item.title}
+            </Typography>
+          </Link>
+        );
+      })}
+    </>
+  );
 
   return (
-    <div
-      className={cn(
-        `flex md:h-12 h-14 items-center justify-center w-full
-          border-b`,
-        className
-      )}
-    >
-      <div className="w-full max-w-[1280px] md:px-8 px-4">
-        {/* Desktop */}
-        <div className="flex items-center gap-x-8 w-full">
-          <div className="md:flex-0 min-w-fit flex-1">
-            {getLogo()}
-          </div>
-          <div className="hidden md:flex flex items-center w-full">
-            <div className="flex items-center gap-x-8 flex-1">
+    <header className={cn('flex items-center justify-between w-full px-6 py-4', className)}>
+      {getLogo()}
+      <nav className="hidden md:flex items-center gap-8">
+        {getHeaderItems()}
+      </nav>
+      <div className="hidden md:flex">{getAuthButtons()}</div>
+      <div className="md:hidden flex items-center">
+        <Drawer direction="right">
+          <DrawerTrigger asChild>
+            <Button variant="ghost">
+              <MenuIcon />
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="w-64">
+            <DrawerHeader>
+              <DrawerClose asChild>
+                <Button variant="ghost" className="ml-auto">
+                  <X />
+                </Button>
+              </DrawerClose>
+            </DrawerHeader>
+            <nav className="flex flex-col p-4 space-y-4">
               {getHeaderItems()}
-            </div>
-            {getAuthButtons()}
-          </div>
-          {/* Mobile */}
-          <div className="md:hidden flex gap-x-4 items-center">
-            {getAuthButtons()}
-            <Drawer direction="right">
-              <DrawerTrigger asChild>
-                <MenuIcon />
-              </DrawerTrigger>
-              <DrawerContent className="h-screen top-0 right-0 left-auto mt-0 w-64 rounded-none">
-                <div className="mx-auto w-full p-5">
-                  <DrawerHeader>
-                    <DrawerClose asChild>
-                      <div className="w-full flex items-end justify-end">
-                        <X />
-                      </div>
-                    </DrawerClose>
-                  </DrawerHeader>
-                  <div className="p-4 pb-0 space-y-4">
-                    {getHeaderItems()}
-                  </div>
-                </div>
-              </DrawerContent>
-            </Drawer>
-          </div>
-        </div>
+              <div className="flex flex-col gap-2 mt-4">
+                {getAuthButtons()}
+              </div>
+            </nav>
+          </DrawerContent>
+        </Drawer>
       </div>
-    </div>
-  )
+    </header>
+  );
 }

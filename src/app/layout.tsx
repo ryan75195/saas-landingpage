@@ -1,43 +1,36 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { ThemeProvider } from '@/providers/theme-provider'
-import { Header } from '@/components/common/header'
-import { Footer } from '@/components/common/footer'
-import { Analytics } from '@vercel/analytics/react'
+// layout.tsx
 
-const inter = Inter({ subsets: ['latin'] })
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { ThemeProvider } from '@/providers/theme-provider';
+import { Header } from '@/components/common/header';
+import { Footer } from '@/components/common/footer';
+import { Analytics } from '@vercel/analytics/react';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title:
-    'Pandem - Information you need during on-call emergencies',
-  description:
-    'Quickly link new on-call tickets to similar past incidents and their solutions. All directly in Slack the moment an incident happens.',
+  title: 'Legacy AI - Unlock Your Memories with AI-Powered Insights',
+  description: 'Transcribe and transform your voice memos...',
   openGraph: {
-    images: '/opengraph-image.png'
+    images: '/opengraph-image.png',
   },
   twitter: {
     card: 'summary_large_image',
-    title:
-      'Pandem - Information you need during on-call emergencies',
-    description:
-      'Quickly link new on-call tickets to similar past incidents and their solutions. All directly in Slack the moment an incident happens.',
-    images: ['https://i.imgur.com/MPMcyPP.png']
-  }
-}
+    title: 'Legacy AI...',
+    images: ['https://i.imgur.com/MPMcyPP.png'],
+  },
+  metadataBase: new URL("https://your-production-url.com"),
+};
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className="antialiased"
-    >
-      <Analytics />
+    <html lang="en" suppressHydrationWarning className="antialiased scroll-smooth">
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
@@ -45,19 +38,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main
-            className={`flex min-h-screen flex-col ${inter.className}`}
-          >
+          <main className="flex min-h-screen flex-col">
             <Header />
             <div className="flex flex-1 justify-center w-full">
-              <div className="flex w-full max-w-[1280px] h-full">
-                {children}
-              </div>
+              <div className="flex w-full max-w-[1280px] h-full">{children}</div>
             </div>
             <Footer />
           </main>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
-  )
+  );
 }

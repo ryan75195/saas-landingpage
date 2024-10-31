@@ -1,50 +1,28 @@
-'use client'
-import Link from 'next/link'
-import Typography from '@components/ui/typography'
+// components/common/footer.tsx
+'use client';
+import Link from 'next/link';
+import Typography from '@/components/ui/typography';
 
 export function Footer() {
   return (
-    <footer className="flex h-12 items-center justify-center w-full border-t">
-      <div className="w-full max-w-[1280px] md:px-8 px-4 flex place-content-center">
-        <div className="gap-x-11 md:flex flex-1 hidden">
-          <Link
-            href="/"
-            className="pointer flex items-center"
-          >
-            <img src="/logo.svg" className="mr-3" />
-            <Typography className="!text-white !text-base font-medium ">
-              Pandem
-            </Typography>
+    <footer className="flex items-center justify-center w-full py-8 bg-gray-800">
+      <div className="w-full max-w-[1280px] px-6 flex flex-col md:flex-row justify-between items-center">
+        <Link href="/" className="flex items-center mb-4 md:mb-0">
+          <img src="/logo.svg" alt="Legacy AI Logo" className="h-8 mr-2" />
+          <Typography className="text-white text-lg font-bold">Legacy AI</Typography>
+        </Link>
+        <div className="flex space-x-6">
+          <Link href="/privacy-policy">
+            <Typography className="text-gray-400 hover:text-white">Privacy Policy</Typography>
           </Link>
-        </div>
-        <div className="flex max-w-fit items-center gap-x-4">
-          <Link
-            href="https://map.sistilli.dev/public/coding/SaaS+Boilerplate"
-            target="_blank"
-            className="pointer block w-fit flex-1"
-          >
-            <Typography variant="p" className="w-max">
-              Book a demo
-            </Typography>
+          <Link href="/terms-of-service">
+            <Typography className="text-gray-400 hover:text-white">Terms of Service</Typography>
           </Link>
-          <Link
-            href="/terms-of-service"
-            className="pointer block w-fit flex-1"
-          >
-            <Typography variant="p" className="w-max">
-              Terms of service
-            </Typography>
-          </Link>
-          <Link
-            href="/privacy-policy"
-            className="pointer block w-fit"
-          >
-            <Typography variant="p">
-              Privacy Policy
-            </Typography>
+          <Link href="/contact">
+            <Typography className="text-gray-400 hover:text-white">Contact Us</Typography>
           </Link>
         </div>
       </div>
     </footer>
-  )
+  );
 }
